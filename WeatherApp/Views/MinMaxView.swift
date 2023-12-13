@@ -10,29 +10,25 @@ import UIKit
 class MinMaxView: UIView {
 
   // MARK: Properties
-  private var minTempText = ReusableLabel(fontSize: 17, weight: .bold, color: .systemBlue, numberOfLines: 1)
+  private var minTempText = ReusableLabel(fontSize: 17, weight: .bold, color: .secondaryLabel, numberOfLines: 1)
   private var minTempImage = ReusableSystemImage(systemImage: "thermometer.sun", preferMultiColor: false, color: .systemBlue)
-  var minTempLabel = ReusableLabel(fontSize: 20, weight: .bold, color: .systemBlue, numberOfLines: 1)
+  var minTempLabel = ReusableLabel(fontSize: 20, weight: .bold, color: .label, numberOfLines: 1)
   
-  private var maxTempText = ReusableLabel(fontSize: 17, weight: .bold, color: .systemRed, numberOfLines: 1)
+  private var maxTempText = ReusableLabel(fontSize: 17, weight: .bold, color: .secondaryLabel, numberOfLines: 1)
   private var maxTempImage = ReusableSystemImage(systemImage: "thermometer.sun.fill", preferMultiColor: false, color: .systemRed)
-  var maxTempLabel = ReusableLabel(fontSize: 20, weight: .bold, color: .systemRed, numberOfLines: 1)
+  var maxTempLabel = ReusableLabel(fontSize: 20, weight: .bold, color: .label, numberOfLines: 1)
   
   // MARK: Lifecyle
   override init(frame: CGRect) {
     super.init(frame: .zero)
-    //self.translatesAutoresizingMaskIntoConstraints = false
-    backgroundColor = .gray
+    self.translatesAutoresizingMaskIntoConstraints = false
     configure()
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
-  
-  // MARK: Objc Functions
-  
-  
+
   // MARK: Helping Functions
   private func configure() {
     // Minimum Temp Properties
@@ -45,15 +41,14 @@ class MinMaxView: UIView {
     minTempLabel.translatesAutoresizingMaskIntoConstraints = false
     
     NSLayoutConstraint.activate([
-      minTempText.topAnchor.constraint(equalTo: self.topAnchor),
-      minTempText.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-      
-      minTempImage.topAnchor.constraint(equalTo: minTempText.bottomAnchor, constant: 10),
-      minTempImage.centerXAnchor.constraint(equalTo: minTempText.centerXAnchor),
+      minTempImage.topAnchor.constraint(equalTo: self.topAnchor),
       minTempImage.heightAnchor.constraint(equalToConstant: 40),
       minTempImage.widthAnchor.constraint(equalToConstant: 40),
       
-      minTempLabel.topAnchor.constraint(equalTo: minTempImage.bottomAnchor),
+      minTempText.topAnchor.constraint(equalTo: minTempImage.bottomAnchor, constant: 10),
+      minTempText.centerXAnchor.constraint(equalTo: minTempImage.centerXAnchor),
+      
+      minTempLabel.topAnchor.constraint(equalTo: minTempText.bottomAnchor, constant: 10),
       minTempLabel.centerXAnchor.constraint(equalTo: minTempImage.centerXAnchor)
     ])
     
@@ -67,15 +62,15 @@ class MinMaxView: UIView {
     maxTempLabel.translatesAutoresizingMaskIntoConstraints = false
     
     NSLayoutConstraint.activate([
-      maxTempText.topAnchor.constraint(equalTo: self.topAnchor),
-      maxTempText.leadingAnchor.constraint(equalTo: minTempText.trailingAnchor, constant: 50),
-      
-      maxTempImage.topAnchor.constraint(equalTo: maxTempText.bottomAnchor, constant: 10),
-      maxTempImage.centerXAnchor.constraint(equalTo: maxTempText.centerXAnchor),
+      maxTempImage.topAnchor.constraint(equalTo: self.topAnchor),
+      maxTempImage.leadingAnchor.constraint(equalTo: minTempImage.trailingAnchor, constant: 100),
       maxTempImage.heightAnchor.constraint(equalToConstant: 40),
       maxTempImage.widthAnchor.constraint(equalToConstant: 40),
       
-      maxTempLabel.topAnchor.constraint(equalTo: maxTempImage.bottomAnchor),
+      maxTempText.topAnchor.constraint(equalTo: maxTempImage.bottomAnchor, constant: 10),
+      maxTempText.centerXAnchor.constraint(equalTo: maxTempImage.centerXAnchor),
+      
+      maxTempLabel.topAnchor.constraint(equalTo: maxTempText.bottomAnchor, constant: 10),
       maxTempLabel.centerXAnchor.constraint(equalTo: maxTempImage.centerXAnchor)
     ])
     

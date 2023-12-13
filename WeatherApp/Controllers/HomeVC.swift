@@ -17,6 +17,7 @@ class HomeVC: UIViewController {
   let temp = ReusableLabel(fontSize: 60, weight: .bold, color: .label, numberOfLines: 1)
 
   let minMaxView = MinMaxView()
+  let statsView = StatsView()
   
   let weatherService = WeatherManager()
   
@@ -30,6 +31,7 @@ class HomeVC: UIViewController {
     configureTodayView()
     configureCurrentWeatherView()
     configureMinMaxView()
+    configureStatsView()
   }
   
   // MARK: Helping Functions
@@ -45,8 +47,11 @@ class HomeVC: UIViewController {
     guard let weather = weather else { return }
     cityName.text = weather.name
     temp.text = "\(Int(weather.main.temp))° F"
-    minMaxView.minTempLabel.text = "\(weather.main.tempMin)"
-    minMaxView.maxTempLabel.text = "\(weather.main.tempMax)"
+    minMaxView.minTempLabel.text = "\(Int(weather.main.tempMin))°"
+    minMaxView.maxTempLabel.text = "\(Int(weather.main.tempMax))°"
+    statsView.pressureLabel.text = "\(weather.main.pressure) MB"
+    statsView.windLabel.text = "\(weather.wind.speed) m/h"
+    statsView.humidityLabel.text = "\(weather.main.humidity)%"
   }
   
   private func setUpCityNameProperties() {
@@ -93,15 +98,22 @@ class HomeVC: UIViewController {
   
   private func configureMinMaxView() {
     view.addSubview(minMaxView)
-    minMaxView.translatesAutoresizingMaskIntoConstraints = false
     
     NSLayoutConstraint.activate([
       minMaxView.topAnchor.constraint(equalTo: currentWeatherImage.bottomAnchor, constant: 20),
-      minMaxView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-      minMaxView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 10)
-//      minMaxView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-//      minMaxView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-//      minMaxView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      minMaxView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 100),
+      minMaxView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      minMaxView.heightAnchor.constraint(equalToConstant: 125),
+    ])
+  }
+  
+  private func configureStatsView() {
+    view.addSubview(statsView)
+    
+    NSLayoutConstraint.activate([
+      statsView.topAnchor.constraint(equalTo: minMaxView.bottomAnchor),
+      statsView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 37),
+      statsView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
     ])
   }
 }
