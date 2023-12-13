@@ -1,5 +1,5 @@
 //
-//  StatsView.swift
+//  pressureWindHumidityView.swift
 //  WeatherApp
 //
 //  Created by Pedro Thomas on 12/13/23.
@@ -7,20 +7,20 @@
 
 import UIKit
 
-class StatsView: UIView {
+class pressureWindHumidityView: UIView {
 
   // MARK: Properties
-  private var pressureText = ReusableLabel(fontSize: 17, weight: .bold, color: .secondaryLabel, numberOfLines: 1)
+  private var pressureText = ReusableLabel(fontSize: 17, weight: .bold, color: .systemGray, numberOfLines: 1)
   private var pressureImage = ReusableSystemImage(systemImage: "speedometer", preferMultiColor: false, color: .systemTeal)
-  var pressureLabel = ReusableLabel(fontSize: 20, weight: .bold, color: .label, numberOfLines: 1)
+  var pressureLabel = ReusableLabel(fontSize: 20, weight: .bold, color: .white, numberOfLines: 1)
   
-  private var windText = ReusableLabel(fontSize: 17, weight: .bold, color: .secondaryLabel, numberOfLines: 1)
+  private var windText = ReusableLabel(fontSize: 17, weight: .bold, color: .systemGray, numberOfLines: 1)
   private var windImage = ReusableSystemImage(systemImage: "wind", preferMultiColor: false, color: .systemOrange)
-  var windLabel = ReusableLabel(fontSize: 20, weight: .bold, color: .label, numberOfLines: 1)
+  var windLabel = ReusableLabel(fontSize: 20, weight: .bold, color: .white, numberOfLines: 1)
   
-  private var humidityText = ReusableLabel(fontSize: 17, weight: .bold, color: .secondaryLabel, numberOfLines: 1)
+  private var humidityText = ReusableLabel(fontSize: 17, weight: .bold, color: .systemGray, numberOfLines: 1)
   private var humidityImage = ReusableSystemImage(systemImage: "humidity.fill", preferMultiColor: false, color: .systemPurple)
-  var humidityLabel = ReusableLabel(fontSize: 20, weight: .bold, color: .label, numberOfLines: 1)
+  var humidityLabel = ReusableLabel(fontSize: 20, weight: .bold, color: .white, numberOfLines: 1)
   
   
   // MARK: Lifecyle
@@ -101,5 +101,4 @@ class StatsView: UIView {
       humidityLabel.centerXAnchor.constraint(equalTo: humidityImage.centerXAnchor)
     ])
   }
-  
 }

@@ -10,13 +10,13 @@ import UIKit
 class MinMaxView: UIView {
 
   // MARK: Properties
-  private var minTempText = ReusableLabel(fontSize: 17, weight: .bold, color: .secondaryLabel, numberOfLines: 1)
+  private var minTempText = ReusableLabel(fontSize: 17, weight: .bold, color: .systemGray, numberOfLines: 1)
   private var minTempImage = ReusableSystemImage(systemImage: "thermometer.sun", preferMultiColor: false, color: .systemBlue)
-  var minTempLabel = ReusableLabel(fontSize: 20, weight: .bold, color: .label, numberOfLines: 1)
+  var minTempLabel = ReusableLabel(fontSize: 20, weight: .bold, color: .white, numberOfLines: 1)
   
-  private var maxTempText = ReusableLabel(fontSize: 17, weight: .bold, color: .secondaryLabel, numberOfLines: 1)
+  private var maxTempText = ReusableLabel(fontSize: 17, weight: .bold, color: .systemGray, numberOfLines: 1)
   private var maxTempImage = ReusableSystemImage(systemImage: "thermometer.sun.fill", preferMultiColor: false, color: .systemRed)
-  var maxTempLabel = ReusableLabel(fontSize: 20, weight: .bold, color: .label, numberOfLines: 1)
+  var maxTempLabel = ReusableLabel(fontSize: 20, weight: .bold, color: .white, numberOfLines: 1)
   
   // MARK: Lifecyle
   override init(frame: CGRect) {

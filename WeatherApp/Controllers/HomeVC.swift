@@ -6,41 +6,45 @@
 //
 
 import UIKit
+import CoreLocation
 
 class HomeVC: UIViewController {
 
   // MARK: Properties
   let cityName = ReusableLabel(fontSize: 30, weight: .bold, color: .systemGreen, numberOfLines: 1)
-  let todayLabel = ReusableLabel(fontSize: 50, weight: .bold, color: .label.withAlphaComponent(0.8), numberOfLines: 1)
+  let todayLabel = ReusableLabel(fontSize: 50, weight: .bold, color: .white, numberOfLines: 1)
   let todayDate = ReusableLabel(fontSize: 20, weight: .light, color: .systemGray, numberOfLines: 1)
-  let currentWeatherImage = ReusableSystemImage(systemImage: "sun.max.fill", preferMultiColor: true, color: nil)
-  let temp = ReusableLabel(fontSize: 60, weight: .bold, color: .label, numberOfLines: 1)
+  let currentWeatherImage = ReusableSystemImage(systemImage: "cloud.sun.fill", preferMultiColor: true, color: nil)
+  let temp = ReusableLabel(fontSize: 60, weight: .bold, color: .white, numberOfLines: 1)
 
   let minMaxView = MinMaxView()
-  let statsView = StatsView()
+  let pressureWindHumidityiew = pressureWindHumidityView()
   
-  let weatherService = WeatherManager()
+  var weatherService = WeatherManager()
+  
+  let locationManager = CLLocationManager()
+  var currentLocation: CLLocation?
   
   // MARK: Lifecyle
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.backgroundColor = .systemBackground
+    view.backgroundColor = .black
     title = ""
-    fetchWeather()
     setUpCityNameProperties()
     configureTodayView()
     configureCurrentWeatherView()
-    configureMinMaxView()
-    configureStatsView()
+    configureWeatherStats()
+    fetchWeather()
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    setupLocation()
   }
   
   // MARK: Helping Functions
   private func fetchWeather() {
-    weatherService.fetchWeather { [weak self] weather in
-      DispatchQueue.main.async {
-        self?.updateUI(with: weather)
-      }
-    }
+    requestWeatherForLocation()
   }
   
   private func updateUI(with weather: Weather?) {
@@ -49,9 +53,9 @@ class HomeVC: UIViewController {
     temp.text = "\(Int(weather.main.temp))° F"
     minMaxView.minTempLabel.text = "\(Int(weather.main.tempMin))°"
     minMaxView.maxTempLabel.text = "\(Int(weather.main.tempMax))°"
-    statsView.pressureLabel.text = "\(weather.main.pressure) MB"
-    statsView.windLabel.text = "\(weather.wind.speed) m/h"
-    statsView.humidityLabel.text = "\(weather.main.humidity)%"
+    pressureWindHumidityiew.pressureLabel.text = "\(weather.main.pressure) MB"
+    pressureWindHumidityiew.windLabel.text = "\(Int(weather.wind.speed)) m/h"
+    pressureWindHumidityiew.humidityLabel.text = "\(weather.main.humidity)%"
   }
   
   private func setUpCityNameProperties() {
@@ -59,7 +63,7 @@ class HomeVC: UIViewController {
     NSLayoutConstraint.activate([
       cityName.centerXAnchor.constraint(equalTo: view.centerXAnchor),
       cityName.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -20),
-      cityName.heightAnchor.constraint(equalToConstant: 20)
+      cityName.heightAnchor.constraint(equalToConstant: 30)
     ])
   }
   
@@ -83,6 +87,7 @@ class HomeVC: UIViewController {
   
   private func configureCurrentWeatherView() {
     view.addSubview(currentWeatherImage)
+    currentWeatherImage.contentMode = .scaleAspectFit
     view.addSubview(temp)
     
     NSLayoutConstraint.activate([
@@ -96,24 +101,47 @@ class HomeVC: UIViewController {
     ])
   }
   
-  private func configureMinMaxView() {
+  private func configureWeatherStats() {
     view.addSubview(minMaxView)
-    
     NSLayoutConstraint.activate([
       minMaxView.topAnchor.constraint(equalTo: currentWeatherImage.bottomAnchor, constant: 20),
       minMaxView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 100),
       minMaxView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
       minMaxView.heightAnchor.constraint(equalToConstant: 125),
     ])
+    
+    view.addSubview(pressureWindHumidityiew)
+    NSLayoutConstraint.activate([
+      pressureWindHumidityiew.topAnchor.constraint(equalTo: minMaxView.bottomAnchor),
+      pressureWindHumidityiew.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 37),
+      pressureWindHumidityiew.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+    ])
   }
   
-  private func configureStatsView() {
-    view.addSubview(statsView)
+  func setupLocation() {
+    locationManager.delegate = self
+    locationManager.requestWhenInUseAuthorization()
+    locationManager.startUpdatingLocation()
+  }
+}
+
+extension HomeVC: CLLocationManagerDelegate {
+  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    if !locations.isEmpty, currentLocation == nil {
+      currentLocation = locations.first
+      locationManager.stopUpdatingLocation()
+      requestWeatherForLocation()
+    }
+  }
+  
+  func requestWeatherForLocation() {
+    guard let long = currentLocation?.coordinate.longitude else { return }
+    guard let lat = currentLocation?.coordinate.latitude else { return }
     
-    NSLayoutConstraint.activate([
-      statsView.topAnchor.constraint(equalTo: minMaxView.bottomAnchor),
-      statsView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 37),
-      statsView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-    ])
+    weatherService.fetchWeather(lat: lat, long: long) { [weak self] weather in
+          DispatchQueue.main.async {
+              self?.updateUI(with: weather)
+          }
+      }
   }
 }
