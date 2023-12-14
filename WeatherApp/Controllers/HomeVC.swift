@@ -11,12 +11,7 @@ import CoreLocation
 class HomeVC: UIViewController {
 
   // MARK: Properties
-  let cityName = ReusableLabel(fontSize: 30, weight: .bold, color: .systemGreen, numberOfLines: 1)
-  let todayLabel = ReusableLabel(fontSize: 50, weight: .bold, color: .white, numberOfLines: 1)
-  let todayDate = ReusableLabel(fontSize: 20, weight: .light, color: .systemGray, numberOfLines: 1)
-  let currentWeatherImage = ReusableSystemImage(systemImage: "cloud.sun.fill", preferMultiColor: true, color: nil)
-  let temp = ReusableLabel(fontSize: 60, weight: .bold, color: .white, numberOfLines: 1)
-
+  let mainView = MainView()
   let minMaxView = MinMaxView()
   let pressureWindHumidityiew = pressureWindHumidityView()
   
@@ -29,10 +24,7 @@ class HomeVC: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .black
-    title = ""
-    setUpCityNameProperties()
-    configureTodayView()
-    configureCurrentWeatherView()
+    configureMainView()
     configureWeatherStats()
     fetchWeather()
   }
@@ -49,8 +41,10 @@ class HomeVC: UIViewController {
   
   private func updateUI(with weather: Weather?) {
     guard let weather = weather else { return }
-    cityName.text = weather.name
-    temp.text = "\(Int(weather.main.temp))° F"
+    mainView.cityName.text = weather.name
+    mainView.currentWeatherImage.image = UIImage(systemName: setUpWeatherImage(icon: weather.weather[0].icon))
+    mainView.temp.text = "\(Int(weather.main.temp))° F"
+    mainView.weatherDescription.text = weather.weather[0].description
     minMaxView.minTempLabel.text = "\(Int(weather.main.tempMin))°"
     minMaxView.maxTempLabel.text = "\(Int(weather.main.tempMax))°"
     pressureWindHumidityiew.pressureLabel.text = "\(weather.main.pressure) MB"
@@ -58,53 +52,20 @@ class HomeVC: UIViewController {
     pressureWindHumidityiew.humidityLabel.text = "\(weather.main.humidity)%"
   }
   
-  private func setUpCityNameProperties() {
-    view.addSubview(cityName)
+  private func configureMainView() {
+    view.addSubview(mainView)
     NSLayoutConstraint.activate([
-      cityName.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-      cityName.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: -20),
-      cityName.heightAnchor.constraint(equalToConstant: 30)
-    ])
-  }
-  
-  private func configureTodayView() {
-    view.addSubview(todayLabel)
-    todayLabel.text = "Today"
-    
-    view.addSubview(todayDate)
-    let date = DateFormatter()
-    date.dateStyle = .medium
-    let formattedDate = date.string(from: Date())
-    todayDate.text = formattedDate
-    
-    NSLayoutConstraint.activate([
-      todayLabel.topAnchor.constraint(equalTo: cityName.bottomAnchor, constant: 30),
-      todayLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-      todayDate.topAnchor.constraint(equalTo: todayLabel.bottomAnchor, constant: 5),
-      todayDate.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-    ])
-  }
-  
-  private func configureCurrentWeatherView() {
-    view.addSubview(currentWeatherImage)
-    currentWeatherImage.contentMode = .scaleAspectFit
-    view.addSubview(temp)
-    
-    NSLayoutConstraint.activate([
-      currentWeatherImage.topAnchor.constraint(equalTo: todayDate.bottomAnchor, constant: 20),
-      currentWeatherImage.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-      currentWeatherImage.heightAnchor.constraint(equalToConstant: 200),
-      currentWeatherImage.widthAnchor.constraint(equalToConstant: 200),
-      
-      temp.leadingAnchor.constraint(equalTo: currentWeatherImage.trailingAnchor, constant: 10),
-      temp.centerYAnchor.constraint(equalTo: currentWeatherImage.centerYAnchor),
+      mainView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+      mainView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      mainView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      mainView.heightAnchor.constraint(equalToConstant: 200)
     ])
   }
   
   private func configureWeatherStats() {
     view.addSubview(minMaxView)
     NSLayoutConstraint.activate([
-      minMaxView.topAnchor.constraint(equalTo: currentWeatherImage.bottomAnchor, constant: 20),
+      minMaxView.topAnchor.constraint(equalTo: mainView.bottomAnchor, constant: 175),
       minMaxView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 100),
       minMaxView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
       minMaxView.heightAnchor.constraint(equalToConstant: 125),
@@ -117,15 +78,15 @@ class HomeVC: UIViewController {
       pressureWindHumidityiew.trailingAnchor.constraint(equalTo: view.trailingAnchor),
     ])
   }
-  
+}
+
+extension HomeVC: CLLocationManagerDelegate {
   func setupLocation() {
     locationManager.delegate = self
     locationManager.requestWhenInUseAuthorization()
     locationManager.startUpdatingLocation()
   }
-}
-
-extension HomeVC: CLLocationManagerDelegate {
+  
   func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
     if !locations.isEmpty, currentLocation == nil {
       currentLocation = locations.first
@@ -143,5 +104,26 @@ extension HomeVC: CLLocationManagerDelegate {
               self?.updateUI(with: weather)
           }
       }
+  }
+}
+
+extension HomeVC {
+  private func setUpWeatherImage(icon: String) -> String {
+    var systemImage = ""
+    
+    switch icon {
+    case "01d": systemImage = "sun.max.fill"
+    case "01n": systemImage = "moon.fill"
+    case "02d": systemImage = "cloud.sun.fill"
+    case "02n": systemImage = "cloud.moon.fill"
+    case "03d", "03n", "04d", "04n": systemImage = "cloud.fill"
+    case "09d", "09n", "10d", "10n": systemImage = "cloud.rain.fill"
+    case "11d", "11n": systemImage = "cloud.bolt.rain.fill"
+    case "13d", "13n": systemImage = "snow"
+    case "50d", "50n": systemImage = "cloud.fog"
+    default: systemImage = ""
+    }
+    
+    return systemImage
   }
 }

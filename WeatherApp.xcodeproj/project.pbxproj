@@ -17,11 +17,11 @@
 		1D40AC312B28CB81001AD111 /* ReusableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D40AC2A2B28CB81001AD111 /* ReusableButton.swift */; };
 		1D40AC322B28CB81001AD111 /* ReusableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D40AC2B2B28CB81001AD111 /* ReusableLabel.swift */; };
 		1D40AC332B28CB81001AD111 /* ReusableTextfield.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D40AC2C2B28CB81001AD111 /* ReusableTextfield.swift */; };
-		1D40AC342B28CB81001AD111 /* ReusableBodyLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D40AC2D2B28CB81001AD111 /* ReusableBodyLabel.swift */; };
 		1D40AC352B28CB81001AD111 /* ReusableSystemImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D40AC2E2B28CB81001AD111 /* ReusableSystemImage.swift */; };
 		1D40AC362B28CB81001AD111 /* ReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D40AC2F2B28CB81001AD111 /* ReusableView.swift */; };
 		1D40AC3F2B291E19001AD111 /* MinMaxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D40AC3E2B291E19001AD111 /* MinMaxView.swift */; };
 		1D40AC422B29917C001AD111 /* pressureWindHumidityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D40AC412B29917B001AD111 /* pressureWindHumidityView.swift */; };
+		1D40AC462B2B28F4001AD111 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D40AC452B2B28F4001AD111 /* MainView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,11 +37,11 @@
 		1D40AC2A2B28CB81001AD111 /* ReusableButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReusableButton.swift; sourceTree = "<group>"; };
 		1D40AC2B2B28CB81001AD111 /* ReusableLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReusableLabel.swift; sourceTree = "<group>"; };
 		1D40AC2C2B28CB81001AD111 /* ReusableTextfield.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReusableTextfield.swift; sourceTree = "<group>"; };
-		1D40AC2D2B28CB81001AD111 /* ReusableBodyLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReusableBodyLabel.swift; sourceTree = "<group>"; };
 		1D40AC2E2B28CB81001AD111 /* ReusableSystemImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReusableSystemImage.swift; sourceTree = "<group>"; };
 		1D40AC2F2B28CB81001AD111 /* ReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReusableView.swift; sourceTree = "<group>"; };
 		1D40AC3E2B291E19001AD111 /* MinMaxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinMaxView.swift; sourceTree = "<group>"; };
 		1D40AC412B29917B001AD111 /* pressureWindHumidityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pressureWindHumidityView.swift; sourceTree = "<group>"; };
+		1D40AC452B2B28F4001AD111 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,9 +122,8 @@
 		1D40AC272B28CA96001AD111 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				1D40AC472B2B3883001AD111 /* CoreViews */,
 				1D40AC282B28CB81001AD111 /* Reusable Views */,
-				1D40AC3E2B291E19001AD111 /* MinMaxView.swift */,
-				1D40AC412B29917B001AD111 /* pressureWindHumidityView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -135,11 +134,20 @@
 				1D40AC2A2B28CB81001AD111 /* ReusableButton.swift */,
 				1D40AC2B2B28CB81001AD111 /* ReusableLabel.swift */,
 				1D40AC2C2B28CB81001AD111 /* ReusableTextfield.swift */,
-				1D40AC2D2B28CB81001AD111 /* ReusableBodyLabel.swift */,
 				1D40AC2E2B28CB81001AD111 /* ReusableSystemImage.swift */,
 				1D40AC2F2B28CB81001AD111 /* ReusableView.swift */,
 			);
 			path = "Reusable Views";
+			sourceTree = "<group>";
+		};
+		1D40AC472B2B3883001AD111 /* CoreViews */ = {
+			isa = PBXGroup;
+			children = (
+				1D40AC3E2B291E19001AD111 /* MinMaxView.swift */,
+				1D40AC412B29917B001AD111 /* pressureWindHumidityView.swift */,
+				1D40AC452B2B28F4001AD111 /* MainView.swift */,
+			);
+			path = CoreViews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -213,11 +221,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D40AC3F2B291E19001AD111 /* MinMaxView.swift in Sources */,
+				1D40AC462B2B28F4001AD111 /* MainView.swift in Sources */,
 				1D40AC232B28C6E4001AD111 /* Weather.swift in Sources */,
 				1D40AC332B28CB81001AD111 /* ReusableTextfield.swift in Sources */,
 				1D40AC322B28CB81001AD111 /* ReusableLabel.swift in Sources */,
 				1D40AC362B28CB81001AD111 /* ReusableView.swift in Sources */,
-				1D40AC342B28CB81001AD111 /* ReusableBodyLabel.swift in Sources */,
 				1D40AC202B28C6A4001AD111 /* HomeVC.swift in Sources */,
 				1D40AC312B28CB81001AD111 /* ReusableButton.swift in Sources */,
 				1D40AC262B28C709001AD111 /* WeatherManager.swift in Sources */,

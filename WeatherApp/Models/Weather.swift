@@ -11,7 +11,7 @@ struct Weather: Codable {
  var coord: CoordinatesResponse
  var main: MainResponse
  var name: String
-  //var weather: [weatherResponse]
+ var weather: [weatherResponse]
  var wind: windResponse
 }
 
@@ -30,14 +30,10 @@ struct MainResponse: Codable {
 }
 
 struct weatherResponse: Codable {
-  let id: Int
-  var main: String
   var description: String
   var icon: String
 }
 
 struct windResponse: Codable {
   let speed: Double
-//  let deg: Int
-//  let gust: Double
 }

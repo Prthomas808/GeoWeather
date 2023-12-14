@@ -14,17 +14,12 @@ class WeatherManager {
   let apiKey = "d6f2aae2862f75591152761eb594831c"
   
   func fetchWeather(lat: Double, long: Double, completion: @escaping (Weather?) -> Void) {
-    
       let endpoint = "https://api.openweathermap.org/data/2.5/weather?lat=\(lat)&lon=\(long)&appid=\(self.apiKey)&units=imperial"
-//      let endpoint = "https://api.openweathermap.org/data/2.5/weather?lat=41.88&lon=-87.62&appid=\(apiKey)&units=imperial"
-      
       
       guard let url = URL(string: endpoint) else {
         print("DEBUG: Error accesing URL")
         return
       }
-      
-      
       
       let task = URLSession.shared.dataTask(with: url) { data, response, error in
         if let error = error {
@@ -47,8 +42,6 @@ class WeatherManager {
           decoder.keyDecodingStrategy = .convertFromSnakeCase
           let weather = try decoder.decode(Weather.self, from: data)
           completion(weather)
-          //        let results = try JSONSerialization.jsonObject(with: data)
-          //        print(results)
         } catch {
           print(error.localizedDescription)
         }

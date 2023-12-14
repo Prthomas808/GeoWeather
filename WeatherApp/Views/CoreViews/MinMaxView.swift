@@ -34,7 +34,7 @@ class MinMaxView: UIView {
     // Minimum Temp Properties
     addSubview(minTempText)
     minTempText.text = "Min Temp"
-    minTempText.translatesAutoresizingMaskIntoConstraints = false
+ minTempText.translatesAutoresizingMaskIntoConstraints = false
     addSubview(minTempImage)
     minTempImage.translatesAutoresizingMaskIntoConstraints = false
     addSubview(minTempLabel)
